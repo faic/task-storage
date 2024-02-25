@@ -1,18 +1,15 @@
-# Spring Boot to-do app challenge
+# Task Storage API
 
-With this challenge we want to see your skills and the quality of the code, we will take into account the use of SOLID principles. You can use all the tools and libraries you want!
+RESTful API for a task storage
 
+Java 11  
+MySQL 8  
+Gradle  
+Spring Boot  
+Spring Data JPA  
+Flyway  
+Docker  
 
-## Required tools
-
-1. [Java 11](https://adoptopenjdk.net/)
-2. [MySQL](https://dev.mysql.com/downloads/mysql/)
-
-## Objectives
-
-##### Principal
-
-Develop the necessary functionalities for the application to be able to perform the following requests:
 
 - **GET** http request that returns a list of all tasks stored in the database.
 - **GET** http request that returns a specific task by their ID.
@@ -20,11 +17,64 @@ Develop the necessary functionalities for the application to be able to perform 
 - **PUT** http request that updates a specific task by their ID.
 - **DELETE** http request that deletes a task in the database.
 
-##### Optional
+The API utilizes standard HTTP status codes (400 range for client errors, 500 range for server-side)  
+Example usages of endpoints
 
-1. Improve the request that returns a list of tasks by adding the possibility to order and filter the results, for example:
+GET /api/tasks  
+GET /api/tasks?completed=true  
+GET /api/tasks?priority=high  
 
-    - Order results by priority or creation date.
-    - Filter results by priority and/or completion.
-    
-2. Create a new entity called *SubtaskEntity* that allows one task to have multiple subtasks.
+**Example Response**
+
+```json
+[
+   {
+      "id":1,
+      "description":"d3",
+      "completed":true,
+      "priority":"HIGH",
+      "created":"2024-02-25T14:14:00Z"
+   }
+]
+```
+GET /api/tasks/1
+
+**Example Response**
+
+```json
+{
+   "id":1,
+   "description":"d3",
+   "completed":true,
+   "priority":"HIGH",
+   "created":"2024-02-25T14:14:00Z"
+}
+```
+POST /api/tasks/
+
+**Example Request**
+```json
+{
+   "description":"d2",
+   "priority":"LOW"
+}
+
+```
+
+PUT /api/tasks/1
+
+**Example Request**
+```json
+{
+   "description":"d3",
+   "priority":"HIGH",
+   "completed":true
+}
+
+```
+
+DELETE /api/tasks/1
+
+
+
+
