@@ -75,6 +75,13 @@ PUT /api/tasks/1
 
 DELETE /api/tasks/1
 
+CURL request examples  
+curl http://localhost:8080/api/tasks  
+curl -G -d "completed=false" -d "priority=HIGH" http://localhost:8080/api/tasks  
+curl -X PUT -H "Content-Type: application/json" -d '{"description": "d3", "priority": "HIGH", "completed": true}'  http://localhost:8080/api/tasks/1  
+curl -X POST -H "Content-Type: application/json" -d '{"description": "d2", "priority": "LOW"}'  http://localhost:8080/api/tasks/  
+curl http://localhost:8080/api/tasks/3  
+
 
 
 
