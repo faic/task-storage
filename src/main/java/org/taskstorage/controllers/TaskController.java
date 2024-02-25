@@ -20,12 +20,40 @@ public class TaskController {
     @Autowired
     private TaskStorageService taskStorageService;
 
+
+    private Optional<TaskPriority> getPriority(String priorityString) {
+        if (priorityString == null) {
+            return Optional.empty();
+        }
+        try {
+          return Optional.of(TaskPriority.valueOf(priorityString));
+        } catch (IllegalArgumentException ex) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Boolean> getCompleted(String completedString) {
+        if (completedString == null) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(Boolean.valueOf(completedString));
+        } catch (IllegalArgumentException ex) {
+            return Optional.empty();
+        }
+    }
+
+
+
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getTasks(
-            @RequestParam("priority") Optional<TaskPriority> priority,
-            @RequestParam("completed") Optional<Boolean> completed
+            @RequestParam(name = "completed", required = false) String completedParam,
+            @RequestParam(name = "priority", required = false) String priorityParam
     ) {
         final List<TaskDTO> tasks;
+        Optional<TaskPriority> priority = getPriority(priorityParam);
+        Optional<Boolean> completed = getCompleted(completedParam);
+
         if (priority.isPresent() && completed.isPresent()) {
             tasks = taskStorageService.getTasks(completed.get(), priority.get());
         } else if (priority.isPresent()) {

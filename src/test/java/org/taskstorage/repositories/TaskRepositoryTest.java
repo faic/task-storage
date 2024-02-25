@@ -60,9 +60,12 @@ class TaskRepositoryTest extends AbstractIntegrationTest {
     public void findByCompletedAndPriority_whenHasMatched_returnsMatched() {
         Task task1 = new Task("description", TaskPriority.HIGH);
         Task task2 = new Task("description 2", TaskPriority.LOW);
+        Task task3 = new Task("description 3", TaskPriority.LOW);
+        task3.setCompleted(true);
 
         task1 = taskRepository.save(task1);
         taskRepository.save(task2);
+        taskRepository.save(task3);
 
         List<Task> tasks = taskRepository.findByCompletedAndPriority(false, TaskPriority.HIGH);
 
