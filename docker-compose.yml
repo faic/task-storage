@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  task-db:
+    image: mysql:8.0.30
+    restart: always
+    environment:
+      MYSQL_DATABASE: taskstorage
+      MYSQL_USER: youruser
+      MYSQL_PASSWORD: yourpassword
+      MYSQL_ROOT_PASSWORD: yourrootpassword
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-pyourrootpassword" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      task-db:
+        condition: service_healthy
+
+    ports:
+      - '8080:8080'
+
+volumes:
+  mysql-data:
